@@ -1,0 +1,17 @@
+review:
+  focus_areas:
+    - "Check for unused imports or variables"
+    - "Flag functions longer than 40 lines"
+    - "Ensure error handling is present on all async calls"
+    - "Check that new components have corresponding test files"
+    - "Flag hardcoded strings that should be constants"
+
+  severity_levels:
+    - blocker: "Must be fixed before merge"
+    - suggestion: "Nice to have, not blocking"
+    - nitpick: "Minor style or preference"
+
+  ignore_paths:
+    - "*.lock"
+    - "dist/**"
+    - "*.generated.ts"

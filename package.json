@@ -1,0 +1,31 @@
+{
+  "name": "pr-review-bot",
+  "version": "1.0.0",
+  "description": "AI-powered PR review pipeline using OpenAI and GitHub Actions, reducing manual review overhead and standardizing quality gates across the team.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanya355/pr-review-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tanya355/pr-review-bot/issues"
+  },
+  "homepage": "https://github.com/tanya355/pr-review-bot#readme",
+  "dependencies": {
+    "@octokit/rest": "^22.0.1",
+    "js-yaml": "^4.1.1",
+    "openai": "^6.33.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^25.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  }
+}
