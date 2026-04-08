@@ -6,11 +6,14 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "ts-node": {
     "esm": true,
-    "experimentalEsm": true
+    "experimentalEsm": true,
+    "transpileOnly": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
