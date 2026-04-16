@@ -30,7 +30,7 @@ async function main() {
     fs.readFileSync("review-config.yml", "utf8")
   ) as any;
 
-  const criteria = config.review.focus_areas.join("\n- ");
+  const criteria = config.review.focus_areas;
 
   // 3. Call OpenAI (or Ollama if OPENAI_API_BASE is set)
   console.log("Running AI review...");
