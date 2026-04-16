@@ -109,11 +109,12 @@ ai-pr-review-assistant/
 │       └── pr-review.yml
 ├── src/
 │   └── review.ts
+│   └── openai.ts
 │   └── config.ts
 │   └── github.ts
-│   └── openai.ts
 │   └── fileFilter.ts
 │   └── errors.ts
+├── test-lcoal.ts
 ├── review-config.yml
 ├── package.json
 ├── tsconfig.json

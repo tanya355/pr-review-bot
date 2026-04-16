@@ -18,9 +18,19 @@ export interface ReviewResponse {
 
 export class OpenAIReviewer {
   private client: OpenAI;
+  private modelName: string;
 
-  constructor(apiKey: string) {
-    this.client = new OpenAI({ apiKey });
+  constructor() {
+    const apiKey = process.env.OPENAI_API_KEY || "sk-test";
+    const baseURL = process.env.OPENAI_API_BASE || "https://api.openai.com/v1";
+    this.modelName = process.env.MODEL_NAME || "gpt-4o";
+
+    const config: ConstructorParameters<typeof OpenAI>[0] = {
+      apiKey,
+      baseURL,
+    };
+
+    this.client = new OpenAI(config);
   }
 
   async review(request: ReviewRequest): Promise<ReviewResponse> {
@@ -29,7 +39,7 @@ export class OpenAIReviewer {
 
     try {
       const response = await this.client.chat.completions.create({
-        model: "gpt-4o",
+        model: this.modelName,
         messages: [
           {
             role: "system",
