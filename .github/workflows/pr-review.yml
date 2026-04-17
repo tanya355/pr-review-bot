@@ -28,7 +28,9 @@ jobs:
       - name: Run AI review
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          REVIEWER_NAME: "ollama"
+          OLLAMA_BASE_URL: "https://myth-elves-ungodly.ngrok-free.dev"
           REPO: ${{ github.repository }}
         run: npx ts-node src/review.ts
