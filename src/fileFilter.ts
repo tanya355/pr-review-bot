@@ -17,7 +17,9 @@ export class FileFilter {
       const configContent = fs.readFileSync(configPath, "utf8");
       this.config = yaml.load(configContent) as ReviewConfig;
     } catch (error) {
-      throw new Error(`Failed to load review config from ${configPath}: ${error}`);
+      throw new Error(
+        `Failed to load review config from ${configPath}: ${error}`,
+      );
     }
   }
 
@@ -28,7 +30,9 @@ export class FileFilter {
     });
   }
 
-  filterFiles(files: Array<{ filename: string; patch: string }>): Array<{ filename: string; patch: string }> {
+  filterFiles(
+    files: Array<{ filename: string; patch: string }>,
+  ): Array<{ filename: string; patch: string }> {
     return files.filter((f) => !this.shouldIgnore(f.filename));
   }
 

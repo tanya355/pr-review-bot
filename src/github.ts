@@ -15,7 +15,7 @@ export class GitHubClient {
   async fetchPullRequestFiles(
     owner: string,
     repo: string,
-    prNumber: number
+    prNumber: number,
   ): Promise<FileChange[]> {
     try {
       const { data: files } = await this.octokit.pulls.listFiles({
@@ -37,7 +37,7 @@ export class GitHubClient {
     owner: string,
     repo: string,
     prNumber: number,
-    comment: string
+    comment: string,
   ): Promise<void> {
     try {
       await this.octokit.issues.createComment({

@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Display Environment Info
         run: |
@@ -63,7 +63,7 @@ jobs:
           echo "Testing connection..."
           curl -v http://host.docker.internal:11434/api/tags 2>&1 | head -20 || echo "Connection test failed"
           echo ""
-          echo "Running AI review..."
+          echo "Running AI review locally..."
           npx ts-node src/review.ts
           echo "Review completed"
 
@@ -84,4 +84,3 @@ jobs:
         run: |
           echo "✓ Workflow completed successfully"
           echo "Check PR comments for review output (if posting to real PR)"
-          
