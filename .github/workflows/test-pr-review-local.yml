@@ -1,0 +1,86 @@
+name: Test PR Review Locally
+
+on:
+  workflow_dispatch:
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Display Environment Info
+        run: |
+          echo "=== GitHub Actions Environment ==="
+          echo "GitHub Token Available: $([ -n '${{ secrets.GITHUB_TOKEN }}' ] && echo 'Yes' || echo 'No')"
+          echo "OpenAI Key Available: $([ -n '${{ secrets.OPENAI_API_KEY }}' ] && echo 'Yes' || echo 'No')"
+          echo "PR Number: ${{ github.event.pull_request.number || 'N/A' }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
+          echo "==================================="
+
+      - name: Install dependencies
+        run: |
+          echo "Installing npm dependencies..."
+          npm install
+          echo "Dependencies installed successfully"
+
+      - name: Detect API Configuration
+        id: config
+        run: |
+          if [ -z "${{ secrets.OPENAI_API_KEY }}" ]; then
+            echo "Using local Ollama (no OpenAI key provided)"
+            echo "use_ollama=true" >> $GITHUB_OUTPUT
+          else
+            echo "Using OpenAI API"
+            echo "use_ollama=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run AI review (Local Ollama)
+        if: steps.config.outputs.use_ollama == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: sk-local-testing
+          OPENAI_API_BASE: http://host.docker.internal:11434/v1
+          MODEL_NAME: mistral
+          PR_NUMBER: ${{ github.event.pull_request.number || '1' }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "Starting PR review with local Ollama..."
+          echo "Ollama endpoint: $OPENAI_API_BASE"
+          echo "Testing connection..."
+          curl -v http://host.docker.internal:11434/api/tags 2>&1 | head -20 || echo "Connection test failed"
+          echo ""
+          echo "Running AI review locally..."
+          npx ts-node src/review.ts
+          echo "Review completed"
+
+      - name: Run AI review (OpenAI)
+        if: steps.config.outputs.use_ollama == 'false'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PR_NUMBER: ${{ github.event.pull_request.number || '1' }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "Starting PR review with OpenAI..."
+          npx ts-node src/review.ts
+          echo "Review completed"
+
+      - name: Check Results
+        if: always()
+        run: |
+          echo "✓ Workflow completed successfully"
+          echo "Check PR comments for review output (if posting to real PR)"
