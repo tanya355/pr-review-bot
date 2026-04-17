@@ -109,11 +109,42 @@ ai-pr-review-assistant/
 │       └── pr-review.yml
 ├── src/
 │   └── review.ts
+│   └── openai.ts
+│   └── config.ts
+│   └── github.ts
+│   └── fileFilter.ts
+│   └── errors.ts
+├── test-lcoal.ts
 ├── review-config.yml
 ├── package.json
 ├── tsconfig.json
 └── README.md
 ```
+
+---
+
+## WORKFLOW
+ 
+1. Load and validate environment variables (config.ts)
+2. Initialize GitHub client (github.ts)
+3. Initialize file filter from review-config.yml (fileFilter.ts)
+4. Initialize OpenAI reviewer (openai.ts)
+5. Fetch PR files from GitHub
+6. Filter files based on ignore patterns
+7. Generate diff string
+8. Call OpenAI API to review code
+9. Handle quota errors gracefully
+10. Post review comment back to GitHub
+11. Exit with appropriate status code
+ 
+QUOTA EXCEEDED HANDLING
+ 
+If OpenAI quota is exceeded, the workflow will:
+- Catch the quota error
+- Log "QUOTA_EXCEEDED: [message]" to stderr
+- Include a link to the billing page
+- Exit with code 1 (failure)
+- Leave the PR unreviewed (no comment posted)
 
 ---
 

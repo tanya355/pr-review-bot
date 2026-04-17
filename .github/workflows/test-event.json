@@ -1,0 +1,22 @@
+{
+  "action": "opened",
+  "pull_request": {
+    "number": 1,
+    "title": "Test PR for local workflow testing",
+    "head": {
+      "ref": "feature/test-local",
+      "sha": "abc123def456"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "main123def456"
+    }
+  },
+  "repository": {
+    "name": "pr-review-bot",
+    "full_name": "tanya355/pr-review-bot",
+    "owner": {
+      "login": "tanya355"
+    }
+  }
+}
